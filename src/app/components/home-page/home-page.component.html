@@ -1,0 +1,102 @@
+<div class="uk-container">
+    <div uk-slideshow="ratio: 7:3; animation: scale; autoplay: true; pause-on-hover: true; autoplay-interval: 3000">
+        <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1">
+
+            <ul class="uk-slideshow-items">
+                <li>
+                    <img src="../../../assets/images/img1.jpg" alt="" uk-cover>
+                </li>
+                <li>
+                    <img src="../../../assets/images/img2.jpg" alt="" uk-cover>
+                </li>
+                <li>
+                    <img src="../../../assets/images/img3.jpg" alt="" uk-cover>
+                </li>
+            </ul>
+
+            <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous
+                uk-slideshow-item="previous"></a>
+            <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next
+                uk-slideshow-item="next"></a>
+
+        </div>
+        <ul class="uk-slideshow-nav uk-dotnav uk-flex-center uk-margin"></ul>
+    </div>
+</div>
+
+<div class="banner">
+    <div class="uk-container">
+        <div class="uk-text-left" uk-grid>
+            <div class="uk-width-3-4@m">
+                <div><span class="uk-text-large">Welcome to <strong>VS OFFSET PRINTERS</strong></span><br />
+                    <span class="uk-text-large">
+                        Whether you are looking to Print Business cards or print wedding cards - you have come to the
+                        right place.
+                        <span class="">100% Satification Guarantee.</span>
+                    </span>
+                </div>
+            </div>
+            <div class="uk-width-1-4@m">
+                <div><button class="uk-button uk-button-primary uk-border-pill" uk-toggle="target: #place-an-order">PLACE AN ORDER</button></div> <br />
+                <div><button class="uk-button uk-text-primary uk-border-pill" uk-toggle="target: #contact-us">&nbsp;&nbsp;&nbsp;&nbsp;CONTACT US&nbsp;&nbsp;&nbsp;&nbsp;</button></div>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<br />
+<div class="uk-container">
+    <div class="uk-text-left uk-child-width-1-2@m" uk-grid>
+        <div *ngFor="let service of services;let i=index">
+            <div class="uk-card uk-card-default uk-grid-collapse uk-child-width-1-2@s uk-margin uk-card-hover uk-card-secondary"
+                uk-grid *ngIf="i%2 == 0">
+                <div class="uk-card-media-left uk-cover-container">
+                    <img [src]="service.assets[0]" alt="" uk-cover>
+                    <canvas width="600" height="400"></canvas>
+                </div>
+                <div>
+                    <div class="uk-card-body">
+                        <h3 class="uk-card-title">{{service.name}}</h3>
+                        <p>{{service.description}}</p>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="uk-card uk-card-default uk-grid-collapse uk-child-width-1-2@s uk-margin uk-card-hover" uk-grid  *ngIf="i%2 == 1">
+                    <div class="uk-flex-last@s uk-card-media-right uk-cover-container">
+                        <img [src]="service.assets[0]" alt="" uk-cover>
+                        <canvas width="600" height="400"></canvas>
+                    </div>
+                    <div>
+                        <div class="uk-card-body">
+                            <h3 class="uk-card-title">{{service.name}}</h3>
+                            <p>{{service.description}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<br />
+<!-- This is the modal -->
+<div id="place-an-order" class="uk-modal-container" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body">
+        <button class="uk-modal-close-outside" id="close-place-order" type="button" uk-close></button>
+        <app-place-order></app-place-order>
+       </div>
+</div>
+<div id="contact-us" class="uk-modal-container" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body">
+        <button class="uk-modal-close-outside" id="close-contact-us" type="button" uk-close></button>
+        <app-contact-us></app-contact-us>
+       </div>
+</div>
+<div id="services" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body">
+        <button class="uk-modal-close-outside" id="close-service" type="button" uk-close></button>
+        <app-services></app-services>
+       </div>
+</div>
+<app-footer></app-footer>

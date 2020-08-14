@@ -1,0 +1,8 @@
+a.adisabled {
+    cursor: not-allowed;
+    opacity: .65;
+  }
+  .left-right {
+    display: flex;
+    justify-content: space-between;
+  }

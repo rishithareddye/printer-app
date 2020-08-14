@@ -1,0 +1,10 @@
+.footer{
+    background-color: #2376ae;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    color: white;
+  }
+  a.auth {
+    color: inherit; /* blue colors for links too */
+    text-decoration: inherit; /* no underline */
+  }

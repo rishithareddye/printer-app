@@ -1,0 +1,73 @@
+<div class="uk-container">
+    <app-uikit-table [limit]=5 [pagination]=true (callback)="openOrder($event)"></app-uikit-table>
+</div>
+<div id="order-details" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body">
+        <button class="uk-modal-close-outside" type="button" uk-close></button>
+        <h2 class="uk-modal-title">Order Details</h2>
+        <div class="uk-container">
+            <form class="uk-grid-small" uk-grid>
+                <div class="uk-width-1-1">
+                    <span class="uk-text-meta">Name</span>
+                    <input class="uk-input" type="text" [(ngModel)]="selectedOrder.name" name="name"placeholder="Name">
+                </div>
+                <div class="uk-width-1-2@m">
+                    <span class="uk-text-meta">Delivery Date</span>
+                    <input class="uk-input" type="text" [(ngModel)]="selectedOrder.deliverydate" name="deliverydate" placeholder="deliverydate">
+                </div>
+                <div class="uk-width-1-2@m">
+                    <span class="uk-text-meta">Status</span>
+                    <input class="uk-input" type="text" [(ngModel)]="selectedOrder.status" name="status"  placeholder="status">
+                </div>
+                <div class="uk-width-1-2@m">
+                    <span class="uk-text-meta">Email</span>
+                    <input class="uk-input" type="text" [(ngModel)]="selectedOrder.email" name="email"  placeholder="email">
+                </div>
+                <div class="uk-width-1-2@m">
+                    <span class="uk-text-meta">Phone</span>
+                    <input class="uk-input" type="text" [(ngModel)]="selectedOrder.phone" name="phone"  placeholder="Phone">
+                </div>
+                <div class="uk-width-1-2@m">
+                    <span class="uk-text-meta">Service</span>
+                    <input class="uk-input" type="text" [(ngModel)]="selectedOrder.serviceid" name="service"  placeholder="Service">
+                </div>
+                <div class="uk-width-1-2@m">
+                    <span class="uk-text-meta">Option</span>
+                    <input class="uk-input" type="text" [(ngModel)]="selectedOrder.optionid" name="option"  placeholder="Option">
+                </div>
+                <div class="uk-width-1-4@m">
+                    <span class="uk-text-meta">Cost</span>
+                    <input class="uk-input" type="number" [(ngModel)]="selectedOrder.cost" name="cost"  placeholder="cost" (change)="calculateTotal()">
+                </div>
+                <div class="uk-width-1-4@m">
+                    <span class="uk-text-meta">Count</span>
+                    <input class="uk-input" type="number" [(ngModel)]="selectedOrder.count" name="count"  placeholder="count" (change)="calculateTotal()">
+                </div>
+                <div class="uk-width-1-2@m">
+                    <span class="uk-text-meta">Total</span>
+                    <input class="uk-input" type="number" [(ngModel)]="selectedOrder.total" name="total"  placeholder="total" disabled>
+                </div>
+                <div class="uk-width-1-2@m">
+                    <span class="uk-text-meta">Promotion</span>
+                    <input class="uk-input" type="text" [(ngModel)]="selectedOrder.promotion" name="promotion"  placeholder="promotion">
+                </div>
+                <div class="uk-width-1-2@m">
+                    <span class="uk-text-meta">Promotion Amount</span>
+                    <input class="uk-input" type="text" [(ngModel)]="selectedOrder.promotionamount" name="promotionamount"  placeholder="promotion amount" (change)="calculateTotal()">
+                </div>
+                <div class="uk-width-1-1">
+                    <span class="uk-text-meta">Comments</span>
+                    <textarea class="uk-textarea" rows="4" [(ngModel)]="selectedOrder.comments" name="comments"  placeholder="Comments"
+                        id="comments"></textarea>
+                </div>
+            </form>
+            <hr/>
+            <div>
+                <div class="uk-button-group">
+                    <button class="uk-button uk-button-secondary" (click)="updateOrder()">Update</button>
+                    <button class="uk-button uk-button-danger" (click)="deleteOrder()">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

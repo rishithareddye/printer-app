@@ -1,0 +1,176 @@
+<div class="uk-container" *ngIf="orderState<4">
+    <legend class="uk-legend"><strong>PLACE AN ORDER</strong></legend>
+    <ul uk-accordion uk-accordion="multiple: true" id="order-accord">
+        <li class="uk-open">
+            <a class="uk-accordion-title" href="#" id="select-header" (click)="accordClicked(0)"><span
+                    *ngIf="accordFlag[0] || orderState == 0">Select Service</span><span class="uk-text-success"
+                    *ngIf="!accordFlag[0] && orderState > 0"><span
+                        uk-icon="check"></span>&nbsp;{{selectedService.name}}</span></a>
+            <div class="uk-accordion-content">
+                <form class="uk-form-horizontal uk-margin-large">
+                    <div class="uk-margin">
+                        <div class="uk-form-controls">
+                            <select class="uk-select" id="form-horizontal-select" [(ngModel)]="selectedService"
+                                name="services" placeholder="Select Service" (ngModelChange)="onServiceSelected()">
+                                <option *ngFor="let service of services; let i = index" [ngValue]="service">
+                                    {{service.name}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+                <hr>
+            </div>
+        </li>
+        <li class="uk-open">
+            <a class="uk-accordion-title" href="#" id="design-header" (click)="accordClicked(1)"><span
+                    *ngIf="accordFlag[1] || orderState == 1">Select Design</span><span class="uk-text-success"
+                    *ngIf="!accordFlag[1] && orderState > 1"><span
+                        uk-icon="check"></span>&nbsp;{{selectedOption.name}}</span></a>
+            <div class="uk-accordion-content">
+                <div class="uk-child-width-1-4@m" uk-grid>
+                    <div *ngFor="let option of selectedService.options">
+                        <div class="uk-card uk-card-default">
+                            <div class="uk-card-media-top uk-inline-clip uk-transition-toggle" tabindex="0">
+                                <img [src]="option.assets[0]" alt="" style="height: 250px !important;">
+                                <div
+                                    class="uk-transition-fade uk-position-cover uk-position-small uk-overlay uk-overlay-default uk-flex uk-flex-center uk-flex-middle">
+                                    <div class="uk-h4 uk-margin-remove">
+                                        <div class="uk-transition-slide-top-small">
+                                            <h4 class="uk-margin-remove"><button
+                                                    class="uk-button uk-button-primary uk-button-small"
+                                                    (click)="onOptionSelected(option)">Select</button>
+                                            </h4>
+                                        </div>
+                                        <div class="uk-transition-slide-bottom-small">
+                                            <h4 class="uk-margin-remove"> <button
+                                                    class="uk-button uk-button-secondary uk-button-small">&nbsp;View&nbsp;</button>
+                                            </h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="uk-card-body">
+                                <h3 class="uk-card-title">{{option.name}}</h3>
+                                <p>{{option.description}}</p>
+                                <span
+                                    class="uk-badge uk-alert-primary uk-position-right">&#x20B9;&nbsp;{{option.cost | number : '1.2'}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+            </div>
+        </li>
+        <li>
+            <a class="uk-accordion-title" href="#" id="order-details-header" (click)="accordClicked(2)"><span
+                    *ngIf="accordFlag[2] || orderState == 2">Select Date/Quantity</span><span class="uk-text-success"
+                    *ngIf="!accordFlag[2] && orderState > 2"><span uk-icon="check"></span>&nbsp;{{deliverydate}} -
+                    {{count}} prints</span></a>
+            <div class="uk-accordion-content">
+                <form class="uk-grid-small" uk-grid>
+                    <div class="uk-width-1-2@s">
+                        <input class="uk-input" [ngClass]="{'uk-form-danger':!formValidation.count.valid}" type="number"
+                            placeholder="NUMBER OF PRINTS" [min]="selectedOption.mincount"
+                            [max]="selectedOption.maxcount" [(ngModel)]="count" name="count"
+                            (blur)="checkAvaliablity()">
+                        <span class="uk-text-meta uk-text-danger"
+                            *ngIf="!formValidation.count.valid">{{formValidation.count.error}}</span>
+                    </div>
+                    <div class="uk-width-1-2@s">
+                        <input class="uk-input" [ngClass]="{'uk-form-danger':!formValidation.deliverydate.valid}"
+                            type="text" id="date-pick" placeholder="PICK A DATE" (change)="checkAvaliablity()"
+                            name="deliverydate">
+                        <span class="uk-text-meta uk-text-danger"
+                            *ngIf="!formValidation.deliverydate.valid">{{formValidation.deliverydate.error}}</span>
+                    </div>
+                </form>
+            </div>
+            <hr>
+        </li>
+        <li>
+            <a class="uk-accordion-title" href="#" id="personal-details-header" (click)="accordClicked(3)">Details</a>
+            <div class="uk-accordion-content">
+                <form class="uk-grid-small" uk-grid>
+                    <div class="uk-width-1-1">
+                        <input class="uk-input" [ngClass]="{'uk-form-danger':!formValidation.name.valid}" type="text"
+                            placeholder="Name (Required)" id="name" (blur)="validateName()">
+                        <span class="uk-text-meta uk-text-danger"
+                            *ngIf="!formValidation.name.valid">{{formValidation.name.error}}</span>
+                    </div>
+                    <div class="uk-width-1-1">
+                        <input class="uk-input" type="text" placeholder="Company (Optional)" id="company">
+                    </div>
+                    <div class="uk-width-1-2@s">
+                        <input class="uk-input" [ngClass]="{'uk-form-danger':!formValidation.email.valid}" type="text"
+                            placeholder="Email (Required)" id="email" (blur)="validateEmail()">
+                        <span class="uk-text-meta uk-text-danger"
+                            *ngIf="!formValidation.email.valid">{{formValidation.email.error}}</span>
+                    </div>
+                    <div class="uk-width-1-2@s">
+                        <input class="uk-input" [ngClass]="{'uk-form-danger':!formValidation.phone.valid}" type="text"
+                            placeholder="Phone (Required)" id="phone" (blur)="validatePhone()">
+                        <span class="uk-text-meta uk-text-danger"
+                            *ngIf="!formValidation.phone.valid">{{formValidation.phone.error}}</span>
+                    </div>
+                    <div class="uk-width-1-1">
+                        <textarea class="uk-textarea" rows="4" placeholder="Comments (Optional) - Please Enter Printing Details (upload option coming up)"
+                            id="comments"></textarea>
+                    </div>
+                    <button class="uk-button uk-button-primary" (click)="validateDetails()">Submit</button>
+                </form>
+            </div>
+        </li>
+        <hr>
+    </ul>
+</div>
+<div class="uk-container" *ngIf="orderState==4">
+    <ul uk-accordion="collapsible: false">
+        <li>
+            <a class="uk-accordion-title" href="#">
+                <legend class="uk-legend"><strong>Order Summary</strong></legend>
+            </a>
+            <div class="uk-accordion-content">
+                <div uk-grid>
+                    <div class="uk-width-1-3@m uk-text-center">
+                        <div class="uk-card uk-card-default uk-card-body"><img class="uk-border-circle"
+                                [src]="selectedOption.assets[0]" width="200" height="200" alt="Border circle"></div>
+                    </div>
+                    <div class="uk-width-expand@m uk-text-left">
+                        <div class="uk-card uk-card-default uk-card-body">
+                            <strong>Order Info</strong>
+                            <hr />
+                            {{selectedService.name}}<br />
+                            {{selectedOption.name}}<br />
+                            Print Date: {{deliverydate}}<br />
+                            Copies: {{count}}<br />
+                            Copies: {{count}}<br />
+                            Total: {{orderinfo.total}}<br />
+                            Comments: {{orderinfo.comments}}<br />
+                            <hr />
+                            <strong>Personal Info</strong>
+                            <hr />
+                            Name: {{orderinfo.name}}<br />
+                            Company: {{orderinfo.company}}<br />
+                            Phone: {{orderinfo.phone}}<br />
+                            Email: {{orderinfo.email}}<br />
+                            <hr />
+                        </div>
+                        <div>
+                            <div class="uk-button-group uk-align-center">
+                                <button class="uk-button uk-button-secondary" (click)="updateOrder()">Update</button>
+                                <button class="uk-button uk-button-primary" (click)="placeOrder()">Confirm</button>
+                            </div>
+                        </div>
+                        <hr />
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
+<div class="uk-container" *ngIf="orderState==5">
+    <legend class="uk-legend"><strong>Order Placed.</strong>&nbsp;OrderId: <strong>{{orderid}}</strong><br/>
+        Close To Continue ....  <button class="uk-button uk-button-default uk-modal-close" type="button">Close</button>
+    </legend>
+</div>

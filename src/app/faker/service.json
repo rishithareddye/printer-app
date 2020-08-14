@@ -1,0 +1,74 @@
+[
+    {
+      "id": "business_cards",
+      "description": "Papers. Shapes. Finishes. Now you can print a card as unique as you.",
+      "name": "Business Cards",
+      "assets": [
+        "https://i.ytimg.com/vi/KatgxcHExOI/hqdefault.jpg"
+      ],
+      "options": [
+        {
+          "optionid": "template_1",
+          "serviceid": "business_cards",
+          "name": "Template 1",
+          "assets": [
+            "https://img.freepik.com/free-vector/elegant-minimal-black-yellow-business-card-template_1017-22513.jpg",
+            "https://i.pinimg.com/736x/4d/34/e5/4d34e5eb95fdfe889a644e1c6a6bb2f0.jpg"
+          ],
+          "description": "First Template",
+          "cost":100,
+          "mincount":100,
+          "maxcount":1000
+        },
+        {
+          "optionid": "template_2",
+          "serviceid": "business_cards",
+          "name": "Template 2",
+          "assets": [
+            "https://static.vecteezy.com/system/resources/previews/000/146/636/non_2x/free-colorful-stylish-business-card-template-design-vector.jpg",
+            "https://image.freepik.com/free-vector/red-business-card-template-design_1051-839.jpg"
+          ],
+          "description": "Second Template",
+          "cost":100,
+          "mincount":100,
+          "maxcount":1000
+        }
+      ]
+    },
+    {
+      "id": "wedding_cards",
+      "description": "you can now create a wedding invitation that reflects your wedding-day in style.",
+      "name": "Wedding Cards",
+      "assets": [
+        "https://the-maharani-diaries-zxpo8io6akeffozy.netdna-ssl.com/media/2019/06/29053202/Indian-Wedding-Invitation-Designers-Customizing-Creativity_The-Maharani-Diaries_5.jpg"
+      ],
+      "options": [
+        {
+          "optionid": "template_1",
+          "serviceid": "wedding_cards",
+          "name": "Template 1",
+          "assets": [
+            "https://www.linkers.biz/wp-content/uploads/2019/01/S-158.jpg",
+            "https://4.bp.blogspot.com/-QwmK1QC3IH4/W1yOCN6XTrI/AAAAAAAAAOU/9iV6LuwgcsYV-dFWa10OfuTfvJSv82CTQCLcBGAs/s1600/Picture-2018-07-28%2B21.07.41.jpg"
+          ],
+          "description": "First Template",
+          "cost":100,
+          "mincount":100,
+          "maxcount":1000
+        },
+        {
+          "optionid": "template_2",
+          "serviceid": "wedding_cards",
+          "name": "Template 2",
+          "assets": [
+            "https://cdn2.f-cdn.com/contestentries/1513498/33599950/5cfa304fd7afd_thumb900.jpg",
+            "https://i.pinimg.com/736x/6b/dd/1a/6bdd1a4c53e9e959d65e3f7097fde5d5.jpg"
+          ],
+          "description": "Second Template",
+          "cost":100,
+          "mincount":100,
+          "maxcount":1000
+        }
+      ]
+    }
+  ]

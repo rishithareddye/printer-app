@@ -1,0 +1,69 @@
+<div class="uk-overflow-auto">
+    <!-- <div><button class="uk-button uk-width-1-1 uk-button-primary" (click)="clearTable()"><span uk-icon="plus-circle"></span>&nbsp;CREATE ORDER</button></div> -->
+    <table class="uk-table uk-table-hover uk-table-middle uk-table-divider">
+        <thead>
+            <tr>
+                <th *ngFor="let col of columns">{{col.name}}</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td *ngFor="let col of columns">
+                    <span *ngIf="col.type == 'text'">
+                        <div class="uk-margin">
+                            <input class="uk-input uk-form-width-medium uk-form-small" type="text"
+                                [placeholder]="col.name" [id]="col.id" (change)="detechChange(col.id,col)">
+                        </div>
+                    </span>
+                    <span *ngIf="col.type == 'date'">
+
+                        <div class="uk-margin">
+                            <input class="uk-input uk-form-width-medium uk-form-small date-pick" type="text"
+                                [placeholder]="col.name" [id]="col.id" (change)="detechChange(col.id,col)">
+                        </div>
+                    </span>
+                    <span *ngIf="col.type == 'number'">
+                        <div class="uk-margin">
+                            <input class="uk-input uk-form-width-medium uk-form-small" type="number"
+                                [placeholder]="col.name" [id]="col.id" (change)="detechChange(col.id,col)">
+                        </div>
+                    </span>
+                    <span *ngIf="col.type == 'none'"></span>
+                    <span *ngIf="col.type == 'custom'">
+                        <div class="uk-margin">
+                            <div class="uk-form-controls">
+                                <select class="uk-select" [id]="col.id" (change)="detechChange(col.id,col)"
+                                    [placeholder]="col.name">
+                                    <option value="-1">Select</option>
+                                    <option *ngFor="let option of col.options" [value]="option.key">{{option.value}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </span>
+                </td>
+                <td>
+                    <button class="uk-button uk-button-primary uk-button-small" (click) = "clearTable()">&nbsp;&nbsp;&nbsp;Reset&nbsp;&nbsp;&nbsp;</button>
+                </td>
+            </tr>
+            <tr *ngFor="let row of displayrows">
+                <td *ngFor="let col of columns">{{getValue(row,col)}}</td>
+                <td> <button class="uk-button uk-button-primary uk-button-small"
+                        (click)="callParent(row)">View/Edit</button></td>
+            </tr>
+        </tbody>
+    </table>
+    <div *ngIf="needsPages">
+        <ul class="uk-pagination">
+            <li><a (click)="previousPage()"><span class="uk-margin-small-right" uk-pagination-previous></span>
+                    Previous</a></li>
+            <li class="uk-margin-auto-left" ng-class="{'adisabled': currentPage >= totalPages}"><a
+                    (click)="nextPage()">Next <span class="uk-margin-small-left" uk-pagination-next></span></a></li>
+        </ul>
+        <div class="left-right">
+            <div>Total Records: &nbsp;<strong>{{filteredrows.length}}</strong></div>
+            <div>Showing &nbsp;<strong>{{currentPage}}/{{totalPages}}</strong> page(s)</div>
+        </div>
+    </div>
+</div>

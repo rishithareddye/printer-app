@@ -1,0 +1,45 @@
+<table class="uk-table uk-table-hover uk-table-divider">
+    <thead>
+        <tr>
+            <th>Template</th>
+            <th>Default Min Value</th>
+            <th>Default Max Value</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody *ngFor="let service of services">
+        <tr *ngFor="let option of service.options">
+            <td><strong>{{service.name}}</strong><br/><img class="uk-preserve-width uk-border-circle" [src]="option.assets[0]" width="40" alt="" *ngIf="option.assets.length > 0"> {{option.name}}</td>
+            <td>{{option.mincount}}</td>
+            <td>{{option.maxcount}}</td>
+            <td><button class="uk-button uk-button-primary uk-button-small">Update</button></td>
+        </tr>
+    </tbody>
+</table>
+
+<form>
+    <div class="uk-margin">
+        <label class="uk-form-label" for="form-horizontal-text">Slot Date</label>
+        <div class="uk-form-controls">
+            <input class="uk-input uk-form-width-medium" id="slot-info-date" type="text" placeholder="Select Date" (change)="getSlot()">
+        </div>
+    </div>
+</form>
+<table class="uk-table uk-table-hover uk-table-divider" *ngIf="slots.length > 0">
+    <thead>
+        <tr>
+            <th>Template</th>
+            <th>Available Prints</th>
+            <th>Maximum Prints</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody *ngFor="let slot of slots">
+        <tr *ngFor="let recipient of slot.availableslots | keyvalue">
+            <td>{{recipient.key}}</td>
+            <td>{{recipient.value}}</td>
+            <td>{{slot.maxslots[recipient.key]}}</td>
+            <td><button class="uk-button uk-button-primary uk-button-small">Update</button></td>
+        </tr>
+    </tbody>
+</table>

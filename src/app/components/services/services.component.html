@@ -1,0 +1,28 @@
+<div class="uk-text-left" uk-grid>
+    <div *ngFor="let service of services;let i=index">
+        <div class="uk-card uk-card-default uk-grid-collapse uk-child-width-1-2@s uk-margin service-info" *ngIf="i%2 == 0" uk-grid>
+            <div class="uk-card-media-left uk-cover-container">
+                <img [src]="service.assets[0]" alt="" uk-cover>
+                <canvas width="150" height="100"></canvas>
+            </div>
+            <div>
+                <div class="uk-card-body">
+                    <h3 class="uk-card-title">{{service.name}}</h3>
+                    <p>{{service.description}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="uk-card uk-card-default uk-grid-collapse uk-child-width-1-2@s uk-margin service-info" *ngIf="i%2 == 1" uk-grid>
+            <div class="uk-flex-last@s uk-card-media-right uk-cover-container">
+                <img [src]="service.assets[0]" alt="" uk-cover>
+                <canvas width="150" height="100"></canvas>
+            </div>
+            <div>
+                <div class="uk-card-body">
+                    <h3 class="uk-card-title">{{service.name}}</h3>
+                    <p>{{service.description}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

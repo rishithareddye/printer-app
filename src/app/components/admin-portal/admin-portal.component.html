@@ -1,0 +1,86 @@
+<div uk-grid *ngIf="isLoggedIn">
+    <div class="uk-width-1-5@m uk-visible@m">
+        <button class="uk-button uk-button-default uk-width-1-1"
+            (click)="SignUpUser()"><span uk-icon="users"></span> Register Users</button>
+        <button class="uk-button uk-button-default uk-width-1-1"
+            (click)="opendashBoard(1)"><span uk-icon="cart"></span> Orders</button>
+        <button class="uk-button uk-button-default uk-width-1-1" (click)="opendashBoard(2)"><span uk-icon="calendar"></span>
+            Slots</button>
+        <button class="uk-button uk-button-default uk-width-1-1" (click)="opendashBoard(3)"><span
+                uk-icon="thumbnails"></span> Services</button>
+        <button class="uk-button uk-button-default uk-width-1-1" (click)="LogOut()"><span uk-icon="sign-out"></span>
+            LogOut</button>
+        <!-- <div class="uk-margin" uk-margin>
+            <div uk-form-custom="target: true">
+                <input type="file" id="file-id" (change)="onFileSelected($event)">
+                <input class="uk-input uk-form-width-medium" type="text" placeholder="Select file" disabled>
+            </div>
+            <button class="uk-button uk-button-default">Submit</button>
+        </div> -->
+    </div>
+    <div class="uk-hidden@m">
+        <button class="uk-button uk-button-default" type="button">Hover</button>
+        <div uk-dropdown>
+            <ul class="uk-nav uk-dropdown-nav">
+                <li class="uk-active"><button class="uk-button uk-width-1-1 uk-button-default"><span
+                            uk-icon="users"></span> Register Users</button></li>
+                <li class="uk-active"><button class="uk-button uk-width-1-1 uk-button-default"><span
+                            uk-icon="cart"></span> Orders</button></li>
+                <li class="uk-active"><button class="uk-button uk-width-1-1 uk-button-default"><span
+                            uk-icon="calendar"></span> Slots</button></li>
+                <li class="uk-active"><button class="uk-button uk-width-1-1 uk-button-default"><span
+                            uk-icon="thumbnails"></span> Services</button></li>
+                <li class="uk-active"><button class="uk-button uk-width-1-1 uk-button-default"><span
+                            uk-icon="sign-out"></span> LogOut</button></li>
+                <li class="uk-nav-divider"></li>
+            </ul>
+        </div>
+    </div>
+    <div class="uk-width-4-5@m">
+        <div *ngIf="dashboardState == 1" class="uk-container">
+            <app-admin-orders></app-admin-orders>
+        </div>
+        <div *ngIf="dashboardState == 2" class="uk-container">
+            <app-admin-slot-info></app-admin-slot-info>
+        </div>
+        <div *ngIf="dashboardState == 3" class="uk-container">
+            <app-admin-services-info></app-admin-services-info>
+        </div>
+    </div>
+</div>
+<div class="uk-container uk-width-1-2@m uk-position-center uk-text-center" *ngIf = "!isLoggedIn" uk-toggle="target: #login-modal">
+    <button class="uk-button uk-button-primary uk-button-large" id="login-launch">Login</button>
+</div>
+<div id="login-modal"  uk-modal>
+    <div class="uk-modal-dialog uk-modal-body uk-text-center">
+        <button class="uk-modal-close-outside" id="close-modal" type="button" uk-close></button>
+        <h2 class="uk-modal-title" *ngIf="!registerUser">LOGIN</h2>
+        <h2 class="uk-modal-title" *ngIf="registerUser">REGISTER</h2>
+        <hr/>
+        <div>
+            <form class="uk-grid-small" uk-grid>
+                <div class="uk-width-1-1 uk-margin">
+                    <div class="uk-inline uk-width-1-1">
+                        <span class="uk-form-icon" uk-icon="icon: user"></span>
+                        <input class="uk-input uk-width-1-1" id="email"  type="text">
+                    </div>
+                    <span class="uk-text-meta uk-text-danger"
+                    *ngIf="!emailValid">Email Invalid</span>
+                </div>
+                <div class="uk-width-1-1 uk-margin">
+                    <div class="uk-inline uk-width-1-1">
+                        <span class="uk-form-icon uk-form-icon-flip"uk-icon="icon: lock"></span>
+                        <input class="uk-input uk-width-1-1" id="password"  type="password">
+                    </div>
+                    <span class="uk-text-meta uk-text-danger"
+                    *ngIf="!passwordValid">Password Required</span>
+                </div>
+            </form>
+        </div>
+        <button class="uk-button uk-button-primary" (click)="LogIn()" *ngIf="!registerUser">Login</button><br/> 
+        <button class="uk-button uk-button-primary" (click)="SignUp()" *ngIf="registerUser">Sign Up</button><br/>
+        <span class="uk-text-meta uk-text-danger"
+        *ngIf="!signedIn">Invalid Username/Password</span>
+        <hr/>
+    </div>
+</div>

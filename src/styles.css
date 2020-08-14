@@ -1,0 +1,15 @@
+/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap');
+/* Font Family */
+html, body {
+    font-family: 'Josefin Sans', sans-serif;
+}
+input:focus, textarea:focus,select:focus {
+    border: none;
+    background-color:white;
+    box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+    border: 1px solid rgba(81, 203, 238, 1);
+  }
+  .dp {
+    z-index: 100000000 !important;
+  }
