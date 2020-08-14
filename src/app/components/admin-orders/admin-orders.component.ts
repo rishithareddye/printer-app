@@ -3,6 +3,8 @@ import { FirebaseService } from '../../service/firebase.service';
 import { Service } from '../../model/service.model';
 import { Order } from 'src/app/model/order.model';
 import { SlotInfo } from 'src/app/model/slot-info.model';
+import { Orderinfo } from 'src/app/model/orderinfo.model';
+import { Option } from 'src/app/model/option.model';
 declare var UIkit: any;
 
 @Component({
@@ -15,6 +17,8 @@ export class AdminOrdersComponent implements OnInit {
   };
   order: Order;
   processing: boolean = false;
+  selectedService: Service;
+  selectedOption: Option;
   constructor(public fireBaseService: FirebaseService) { }
   orders: any[] = [];
   services: Service[] = [];
@@ -24,7 +28,7 @@ export class AdminOrdersComponent implements OnInit {
   getServices() {
     this.fireBaseService.getServices().subscribe(snap => {
       this.services = this.snapshotToArray(snap);
-      console.log(this.services);
+      //console.log(this.services);
     });
   }
   snapshotToArray(snapshot): Service[] {
@@ -37,13 +41,25 @@ export class AdminOrdersComponent implements OnInit {
     return returnArr;
   }
   openOrder(order: any) {
-    console.log(order);
+    //console.log(order);
     this.selectedOrder = this.flattenOrder(order);
+    this.services.forEach((s)=>{
+      if(this.selectedOrder.serviceid == s.id) {
+        this.selectedService = s;
+        s.options.forEach((o)=>{
+          if(o.optionid == this.selectedOrder.optionid) {
+            this.selectedOption = o;
+          }
+        })
+      }
+    });
     this.order = order as Order;
+    //console.log(this.selectedOption);
+    //console.log(this.selectedService);
     UIkit.modal('#order-details').show();
   }
   changed(type: number) {
-    console.log(type);
+    //console.log(type);
   }
   flattenOrder(order: Order) {
     return {
@@ -88,18 +104,17 @@ export class AdminOrdersComponent implements OnInit {
   async updateOrder() {
     try {
       this.processing = true;
-      (document.getElementById("update-order") as HTMLButtonElement).disabled = true;
       var slotUpdated = true;
       if (this.needSlotUpdate()) {
-        console.log("needs update");
+        //console.log("needs update");
         var templateid = this.order.orderinfo.orders[0].serviceid + "." + this.order.orderinfo.orders[0].optionid;
         var newtemplateid = this.selectedOrder.serviceid + "." + this.selectedOrder.optionid;
         var slot = (await this.fireBaseService.getSlot(this.selectedOrder.deliverydate, templateid, this.order.orderinfo.orders[0].count)).slot as SlotInfo;
-        console.log(slot);
+        //console.log(slot);
         slotUpdated = false;
         if (templateid != newtemplateid) {
           slot.availableslots[templateid] = Number(slot.availableslots[templateid]) + Number(this.order.orderinfo.orders[0].count);
-          console.log("slots: "+slot.availableslots[newtemplateid]);
+          //console.log("slots: "+slot.availableslots[newtemplateid]);
           if ( slot.availableslots[newtemplateid]) {
             slot.availableslots[newtemplateid] = Number(slot.availableslots[newtemplateid]) - Number(this.selectedOrder.count);
           }
@@ -109,15 +124,17 @@ export class AdminOrdersComponent implements OnInit {
           }
         }
         else if (this.selectedOrder.count != this.order.orderinfo.orders[0].count) {
-          console.log("count change");
+          //console.log("count change");
           slot.availableslots[templateid] = Number(slot.availableslots[templateid]) + (Number(this.order.orderinfo.orders[0].count) - Number(this.selectedOrder.count));
         }
         slotUpdated = await this.fireBaseService.updateSlot(slot, slot.pushid);
       }
       this.unflattenOrder(this.selectedOrder);
+      //console.log(this.order);
       if (slotUpdated) {
         this.fireBaseService.addOrder(this.order);
         UIkit.notification({ message: 'order updated successfully. <br/>OrderId: <strong>' + this.order.pushid + '<strong><br/>', status: 'success' });
+        this.processing = false;
       }
       else {
         UIkit.notification({ message: 'order update failed. <br/>OrderId: <strong>' + this.order.pushid + '<strong><br/>', status: 'danger' });
@@ -126,8 +143,6 @@ export class AdminOrdersComponent implements OnInit {
     catch (e) {
       UIkit.notification({ message: 'order update failed. <br/>OrderId: <strong>' + this.order.pushid + '<strong><br/>', status: 'danger' });
     }
-    (document.getElementById("update-order") as HTMLButtonElement).disabled = false;
-    this.processing = false;
   }
   getTemplateCount(serviceid, optionid) {
     var count = 0;
@@ -160,12 +175,19 @@ export class AdminOrdersComponent implements OnInit {
       UIkit.notification({ message: 'order delete failed.<br/>', status: 'danger' });
     }
     UIkit.modal('#order-details').hide();
-    (document.getElementById("myBtn") as HTMLButtonElement).disabled = false;
     this.processing = false;
+    (document.getElementById("delete-order") as HTMLButtonElement).disabled = false;
     window.location.reload();
   }
   calculateTotal(){
     this.selectedOrder.total = (this.selectedOrder.cost*this.selectedOrder.count) - (this.selectedOrder.promotionamount);
   }
-
+  serviceChange(){
+    this.services.forEach((s)=>{
+      if(this.selectedOrder.serviceid == s.id) {
+        this.selectedService = s;
+        this.selectedOrder.optionid = "";
+      }
+    });
+  }
 }

@@ -29,11 +29,16 @@
                 </div>
                 <div class="uk-width-1-2@m">
                     <span class="uk-text-meta">Service</span>
-                    <input class="uk-input" type="text" [(ngModel)]="selectedOrder.serviceid" name="service"  placeholder="Service">
+                    <select class="uk-select" [(ngModel)]="selectedOrder.serviceid" name="service" (change)="serviceChange()">
+                        <option *ngFor="let service of services" [value]="service.id">{{service.name}}</option>
+                    </select>
+                    <!-- <input class="uk-input" type="text" [(ngModel)]="selectedOrder.serviceid" name="service"  placeholder="Service"> -->
                 </div>
-                <div class="uk-width-1-2@m">
+                <div class="uk-width-1-2@m" *ngIf="selectedService">
                     <span class="uk-text-meta">Option</span>
-                    <input class="uk-input" type="text" [(ngModel)]="selectedOrder.optionid" name="option"  placeholder="Option">
+                    <select class="uk-select" [(ngModel)]="selectedOrder.optionid" name="option">
+                        <option *ngFor="let option of selectedService.options" [value]="option.optionid">{{option.name}}</option>
+                    </select>
                 </div>
                 <div class="uk-width-1-4@m">
                     <span class="uk-text-meta">Cost</span>
