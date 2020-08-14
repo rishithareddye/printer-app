@@ -63,10 +63,11 @@
             </form>
             <hr/>
             <div>
-                <div class="uk-button-group">
-                    <button class="uk-button uk-button-secondary" (click)="updateOrder()">Update</button>
-                    <button class="uk-button uk-button-danger" (click)="deleteOrder()">Delete</button>
+                <div class="uk-button-group" *ngIf="!processing">
+                    <button class="uk-button uk-button-secondary" (click)="updateOrder()" id="update-order">Update</button>
+                    <button class="uk-button uk-button-danger" (click)="deleteOrder()" id="delete-order">Delete</button>
                 </div>
+                <span class="uk-margin-small-right" uk-spinner="ratio: 3"  *ngIf="processing"></span>
             </div>
         </div>
     </div>

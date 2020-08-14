@@ -14,6 +14,7 @@ export class AdminOrdersComponent implements OnInit {
   selectedOrder: any = {
   };
   order: Order;
+  processing: boolean = false;
   constructor(public fireBaseService: FirebaseService) { }
   orders: any[] = [];
   services: Service[] = [];
@@ -86,6 +87,8 @@ export class AdminOrdersComponent implements OnInit {
   }
   async updateOrder() {
     try {
+      this.processing = true;
+      (document.getElementById("update-order") as HTMLButtonElement).disabled = true;
       var slotUpdated = true;
       if (this.needSlotUpdate()) {
         console.log("needs update");
@@ -123,7 +126,8 @@ export class AdminOrdersComponent implements OnInit {
     catch (e) {
       UIkit.notification({ message: 'order update failed. <br/>OrderId: <strong>' + this.order.pushid + '<strong><br/>', status: 'danger' });
     }
-
+    (document.getElementById("update-order") as HTMLButtonElement).disabled = false;
+    this.processing = false;
   }
   getTemplateCount(serviceid, optionid) {
     var count = 0;
@@ -139,6 +143,8 @@ export class AdminOrdersComponent implements OnInit {
     return count;
   }
   async deleteOrder() {
+    this.processing = true;
+    (document.getElementById("delete-order") as HTMLButtonElement).disabled = true;
     var templateid = this.order.orderinfo.orders[0].serviceid + "." + this.order.orderinfo.orders[0].optionid;
     var slot = (await this.fireBaseService.getSlot(this.selectedOrder.deliverydate, templateid, this.order.orderinfo.orders[0].count)).slot as SlotInfo;
     var success = true;
@@ -153,8 +159,13 @@ export class AdminOrdersComponent implements OnInit {
     else {
       UIkit.notification({ message: 'order delete failed.<br/>', status: 'danger' });
     }
+    UIkit.modal('#order-details').hide();
+    (document.getElementById("myBtn") as HTMLButtonElement).disabled = false;
+    this.processing = false;
+    window.location.reload();
   }
   calculateTotal(){
     this.selectedOrder.total = (this.selectedOrder.cost*this.selectedOrder.count) - (this.selectedOrder.promotionamount);
   }
+
 }
